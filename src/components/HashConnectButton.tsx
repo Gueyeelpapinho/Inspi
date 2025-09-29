@@ -7,7 +7,7 @@ const HashConnectButton: React.FC = () => {
 
   const formatAccountId = (id: string) => {
     return `${id.slice(0, 6)}...${id.slice(-4)}`;
-  };
+  };    
 
   return (
     <div className={styles.container}>

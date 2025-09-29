@@ -1,13 +1,13 @@
 {
-  "nftContractId": "0.0.6922152",
-  "tokenAddress": "0000000000000000000000000000000000699fa9",
-  "tokenId": "0.0.6922153",
+  "nftContractId": "0.0.6924092",
+  "tokenAddress": "000000000000000000000000000000000069a73f",
+  "tokenId": "0.0.6924095",
   "mintedNFTSerialNumber": "1",
   "receiverAddress": "0x52432026567763c875fb3ceae1c453c20f2b3ffd",
   "receiverAccountId": "0.0.3700702",
   "availableDates": [
-    1759223427,
-    1759309827,
-    1759396227
+    1759244388,
+    1759330788,
+    1759417188
   ]
 }

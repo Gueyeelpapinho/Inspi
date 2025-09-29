@@ -38,6 +38,7 @@ export default function Home() {
 
         <div className={styles.nav}>
           <Link href="/become-host" className={styles.navLink}>Become a Host</Link>
+          <Link href="/dashboard" className={styles.navLink}>Dashboard</Link>
           <Image src="/globe.svg" alt="Language" width={16} height={16} />
           <HashConnectButton />
           <div className={styles.userMenu}>
@@ -116,10 +117,12 @@ export default function Home() {
             {properties.map((property, index) => (
               <div key={index} className="property-card">
                 <div style={{position: 'relative'}}>
-                  <Image src={property.image} alt={property.title} width={326} height={192} />
-                  <div className="verified-badge" style={{position: 'absolute', top: 6, right: 6, background: 'rgba(0,0,0,0.6)', color: 'white', padding: '2px 4px', borderRadius: '3px', fontSize: '10px', lineHeight: '1'}}>
-                    ✓
-                  </div>
+                  <Link href={`/property/${property.id}`}>
+                    <Image src={property.image} alt={property.title} width={326} height={192} />
+                    <div className="verified-badge" style={{position: 'absolute', top: 6, right: 6, background: 'rgba(0,0,0,0.6)', color: 'white', padding: '2px 4px', borderRadius: '3px', fontSize: '10px', lineHeight: '1'}}>
+                      ✓
+                    </div>
+                  </Link>
                 </div>
                 <div className="content">
                   <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4}}>
@@ -130,15 +133,19 @@ export default function Home() {
                       <span>({property.reviews})</span>
                     </div>
                   </div>
-                  <h3 style={{fontWeight: 500, marginBottom: 16}}>{property.title}</h3>
+                  <Link href={`/property/${property.id}`} style={{textDecoration: 'none', color: 'inherit'}}>
+                    <h3 style={{fontWeight: 500, marginBottom: 16}}>{property.title}</h3>
+                  </Link>
                   <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end'}}>
                     <div className="price">
                       <span className="hbar">{property.price} HBAR</span>
                       <span className="usd">${property.usd} USD / night</span>
                     </div>
-                    <button className="btn btn-primary" style={{padding: '4px 12px', fontSize: '14px'}}>
-                      Book Now
-                    </button>
+                    <Link href={`/property/${property.id}`}>
+                      <button className="btn btn-primary" style={{padding: '4px 12px', fontSize: '14px'}}>
+                        Book Now
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -249,6 +256,7 @@ const categories = [
 
 const properties = [
   {
+    id: '1',
     image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=500&q=80',
     location: 'Villa in Malibu, California',
     rating: '4.97',
@@ -258,6 +266,7 @@ const properties = [
     usd: '250'
   },
   {
+    id: '2',
     image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=500&q=80',
     location: 'Apartment in New York, NY',
     rating: '4.85',
@@ -267,6 +276,7 @@ const properties = [
     usd: '180'
   },
   {
+    id: '3',
     image: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=500&q=80',
     location: 'Cabin in Aspen, Colorado',
     rating: '4.92',
@@ -276,6 +286,7 @@ const properties = [
     usd: '210'
   },
   {
+    id: '4',
     image: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=500&q=80',
     location: 'Bungalow in Miami, Florida',
     rating: '4.89',
@@ -285,6 +296,7 @@ const properties = [
     usd: '195'
   },
   {
+    id: '5',
     image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=500&q=80',
     location: 'Loft in Barcelona, Spain',
     rating: '4.78',
@@ -294,6 +306,7 @@ const properties = [
     usd: '165'
   },
   {
+    id: '6',
     image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=500&q=80',
     location: 'Farmhouse in Tuscany, Italy',
     rating: '4.95',
@@ -303,6 +316,7 @@ const properties = [
     usd: '230'
   },
   {
+    id: '7',
     image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=500&q=80',
     location: 'Cottage in Lake Tahoe, Nevada',
     rating: '4.82',
@@ -312,6 +326,7 @@ const properties = [
     usd: '175'
   },
   {
+    id: '8',
     image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=500&q=80',
     location: 'Penthouse in Los Angeles, California',
     rating: '4.99',

@@ -16,7 +16,7 @@ async function main() {
         }
 
         // NFT Contract information
-        const nftContractAddress = "0000000000000000000000000000000000699fa9"; // EVM address of the NFT contract
+        const nftContractAddress = "000000000000000000000000000000000069a73f"; // EVM address of the NFT contract
 
         // Create Hedera client
         const client = Client.forTestnet();

@@ -39,3 +39,58 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Hedera & Blockchain specific
+contracts/build/
+artifacts/
+cache/
+.hardhat/
+
+# Deployment files (keep templates, ignore actual deployments)
+deployment-*.json
+!deployment-template.json
+
+# Solidity compiler cache
+contracts/cache/
+
+# TypeChain generated files
+typechain/
+typechain-types/
+
+# Local blockchain data
+.chaindata/
+
+# Wallet connection debug files
+hashconnect-debug.log
+
+# API keys and secrets
+.secret
+secrets.json
+private-keys.json
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test artifacts
+test-results/
+
+# OS specific
+Thumbs.db
+ehthumbs.db
+*~
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Local configuration
+config.local.json
+settings.local.json
+
+# Temporary files
+tmp/
+temp/
