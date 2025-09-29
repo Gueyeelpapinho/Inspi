@@ -132,6 +132,46 @@ export function useNFT() {
         owner: accountId
       });
 
+      // Step 3: Associate token with user account so they can see it
+      console.log('Step 3: Associating token with user account...');
+      try {
+        // Import hashconnect for token association
+        const { associateToken } = await import('@/services/hashconnect');
+
+        await associateToken(accountId, tokenAddress);
+        console.log('Token associated successfully');
+      } catch (associationError) {
+        console.log('Token association failed:', associationError);
+        // Continue anyway - the NFT was minted successfully
+      }
+
+      // Step 4: Transfer NFT from contract to user
+      console.log('Step 4: Transferring NFT to user...');
+      try {
+        const transferParams = {
+          tokenAddress: tokenAddress,
+          newOwnerAddress: accountId,
+          serialNumber: serialNumber
+        };
+
+        const transferResponse = await executeContractFunction(
+          accountId,
+          NFT_CONTRACT_ID,
+          'transferNft',
+          transferParams,
+          500000
+        );
+
+        console.log('Transfer response:', transferResponse);
+
+        if (transferResponse && transferResponse.success) {
+          console.log('NFT transferred to user successfully!');
+        }
+      } catch (transferError) {
+        console.log('Transfer failed:', transferError);
+        // The NFT was still minted successfully, just not transferred
+      }
+
       // Store the created property in localStorage for retrieval
       const propertyRecord = {
         tokenAddress,

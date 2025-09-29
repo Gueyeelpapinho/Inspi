@@ -745,4 +745,46 @@ export const executeContractFunctionDirect = async (
         console.error('🚨 DIAGNOSTIC: Direct sendTransaction also failed:', directError);
         throw new Error(`Both signer pattern and direct sendTransaction failed: ${directError.message}`);
     }
+};
+
+// Function to associate token with user account
+export const associateToken = async (accountId: string, tokenAddress: string) => {
+    try {
+        console.log('🔗 DIAGNOSTIC: Starting token association...');
+        console.log('🔗 DIAGNOSTIC: Account ID:', accountId);
+        console.log('🔗 DIAGNOSTIC: Token Address:', tokenAddress);
+
+        // Get the signer from HashPack
+        const signer = hashconnectService.getSigner();
+        if (!signer) {
+            throw new Error('No signer available for token association');
+        }
+
+        // Create token association transaction
+        const { TokenAssociateTransaction } = await import('@hashgraph/sdk');
+
+        const transaction = new TokenAssociateTransaction()
+            .setAccountId(accountId)
+            .setTokenIds([tokenAddress])
+            .freezeWithSigner(signer);
+
+        console.log('🔗 DIAGNOSTIC: Association transaction created');
+
+        const response = await transaction.executeWithSigner(signer);
+        console.log('🔗 DIAGNOSTIC: Association executed:', response);
+
+        // Try to get receipt
+        try {
+            const receipt = await response.getReceiptWithSigner(signer);
+            console.log('🔗 DIAGNOSTIC: Association receipt:', receipt);
+            return { success: true, receipt };
+        } catch (receiptError) {
+            console.log('🔗 DIAGNOSTIC: Receipt failed but transaction may have succeeded:', receiptError);
+            return { success: true, response };
+        }
+
+    } catch (error) {
+        console.error('🔗 DIAGNOSTIC: Token association failed:', error);
+        throw error;
+    }
 }; 
