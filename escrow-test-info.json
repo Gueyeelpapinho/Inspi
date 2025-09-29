@@ -1,0 +1,26 @@
+{
+  "nftContractId": "0.0.6213753",
+  "escrowContractId": "0.0.6213756",
+  "tokenAddress": "00000000000000000000000000000000005ed07a",
+  "tokenId": "0.0.6213754",
+  "nftSerialNumber": "1",
+  "guest1": {
+    "accountId": "0.0.6213750",
+    "privateKey": "302e020100300506032b65700422042088d8574d7ca494abf0bf4dfb22b72bdc64ad03fb96f2f9987e4626cef4abb7b4",
+    "bookingId": "1",
+    "bookedDate": 1750715925,
+    "endDate": 1750802325
+  },
+  "guest2": {
+    "accountId": "0.0.6213751",
+    "privateKey": "302e020100300506032b6570042204208f87d73c6360b5f85ea6bef57bf5e6d66d2154ed7d7b85a4da3afc78d04bca3d",
+    "bookingId": "2",
+    "bookedDate": 1750802325,
+    "endDate": 1750888725
+  },
+  "availableDates": [
+    1750715925,
+    1750802325,
+    1750888725
+  ]
+}

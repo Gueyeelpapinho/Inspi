@@ -1,0 +1,41 @@
+{
+  "name": "hederaair",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "compile:nft": "npx solc --bin --abi --include-path node_modules/ --base-path . -o contracts/build contracts/nftstays.sol",
+    "compile:escrow": "npx solc --bin --abi --include-path node_modules/ --base-path . -o contracts/build contracts/escrowAirbnb.sol",
+    "compile": "npm run compile:nft && npm run compile:escrow",
+    "deploy:nft": "ts-node --project tsconfig.json scripts/deployNFT.ts",
+    "deploy:escrow": "ts-node --project tsconfig.json scripts/deployEscrow.ts"
+  },
+  "dependencies": {
+    "@hashgraph/sdk": "^2.40.0",
+    "@openzeppelin/contracts": "^5.0.1",
+    "@reduxjs/toolkit": "^2.8.2",
+    "bignumber.js": "^9.3.0",
+    "dotenv": "^16.5.0",
+    "hashconnect": "^3.0.13",
+    "next": "14.1.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-redux": "^9.2.0",
+    "solc": "^0.8.24"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.1",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

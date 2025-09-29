@@ -1,0 +1,20 @@
+<svg width="326" height="192" viewBox="0 0 326 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="326" height="192" fill="#fef3c7"/>
+  <rect x="0" y="120" width="326" height="72" fill="#fed7aa"/>
+  <rect x="0" y="140" width="326" height="52" fill="#fdba74"/>
+  <rect x="80" y="90" width="166" height="70" rx="8" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+  <polygon points="163,90 80,130 246,130" fill="#dc2626"/>
+  <rect x="100" y="110" width="25" height="40" rx="2" fill="#7c2d12"/>
+  <rect x="135" y="110" width="25" height="40" rx="2" fill="#7c2d12"/>
+  <rect x="170" y="110" width="25" height="40" rx="2" fill="#7c2d12"/>
+  <rect x="205" y="110" width="25" height="40" rx="2" fill="#7c2d12"/>
+  <circle cx="112" cy="130" r="4" fill="#451a03"/>
+  <circle cx="147" cy="130" r="4" fill="#451a03"/>
+  <circle cx="182" cy="130" r="4" fill="#451a03"/>
+  <circle cx="217" cy="130" r="4" fill="#451a03"/>
+  <rect x="140" y="140" width="46" height="12" rx="2" fill="#451a03"/>
+  <circle cx="280" cy="40" r="25" fill="#fbbf24"/>
+  <path d="M50 160 Q80 150 110 160 T170 160 T230 160 T290 160" stroke="#0ea5e9" stroke-width="3" fill="none"/>
+  <path d="M30 170 Q60 160 90 170 T150 170 T210 170 T270 170" stroke="#0284c7" stroke-width="2" fill="none"/>
+  <text x="163" y="25" text-anchor="middle" fill="#dc2626" font-family="Arial, sans-serif" font-size="14" font-weight="500">Beach Bungalow</text>
+</svg>

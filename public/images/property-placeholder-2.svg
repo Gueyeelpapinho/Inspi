@@ -1,0 +1,16 @@
+<svg width="326" height="192" viewBox="0 0 326 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="326" height="192" fill="#f9fafb"/>
+  <rect x="40" y="40" width="246" height="130" rx="6" fill="#e5e7eb" stroke="#d1d5db" stroke-width="2"/>
+  <rect x="60" y="60" width="50" height="70" rx="3" fill="#9ca3af"/>
+  <rect x="120" y="60" width="50" height="70" rx="3" fill="#9ca3af"/>
+  <rect x="180" y="60" width="50" height="70" rx="3" fill="#9ca3af"/>
+  <rect x="240" y="60" width="30" height="70" rx="3" fill="#9ca3af"/>
+  <rect x="60" y="140" width="50" height="20" rx="2" fill="#9ca3af"/>
+  <rect x="120" y="140" width="50" height="20" rx="2" fill="#9ca3af"/>
+  <rect x="180" y="140" width="50" height="20" rx="2" fill="#9ca3af"/>
+  <rect x="240" y="140" width="30" height="20" rx="2" fill="#9ca3af"/>
+  <circle cx="85" cy="95" r="6" fill="#374151"/>
+  <circle cx="145" cy="95" r="6" fill="#374151"/>
+  <circle cx="205" cy="95" r="6" fill="#374151"/>
+  <text x="163" y="30" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="14" font-weight="500">Modern Apartment</text>
+</svg>

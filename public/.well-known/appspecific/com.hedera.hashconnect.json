@@ -1,0 +1,6 @@
+{
+  "name": "HederaAir",
+  "description": "HederaAir - Hedera Hashgraph DApp",
+  "icons": ["favicon.ico"],
+  "url": "http://localhost:3000"
+} 

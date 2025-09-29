@@ -1,0 +1,18 @@
+<svg width="326" height="192" viewBox="0 0 326 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="326" height="192" fill="#f0f9ff"/>
+  <rect x="60" y="80" width="206" height="80" rx="6" fill="#e0e7ff" stroke="#c7d2fe" stroke-width="2"/>
+  <polygon points="163,80 60,130 266,130" fill="#8b5cf6"/>
+  <rect x="80" y="100" width="30" height="50" rx="3" fill="#6366f1"/>
+  <rect x="120" y="100" width="30" height="50" rx="3" fill="#6366f1"/>
+  <rect x="176" y="100" width="30" height="50" rx="3" fill="#6366f1"/>
+  <rect x="216" y="100" width="30" height="50" rx="3" fill="#6366f1"/>
+  <circle cx="95" cy="125" r="5" fill="#312e81"/>
+  <circle cx="135" cy="125" r="5" fill="#312e81"/>
+  <circle cx="191" cy="125" r="5" fill="#312e81"/>
+  <circle cx="231" cy="125" r="5" fill="#312e81"/>
+  <rect x="140" y="140" width="46" height="15" rx="2" fill="#312e81"/>
+  <ellipse cx="100" cy="50" rx="25" ry="15" fill="#22d3ee"/>
+  <ellipse cx="150" cy="45" rx="20" ry="12" fill="#67e8f9"/>
+  <ellipse cx="200" cy="55" rx="30" ry="18" fill="#a7f3d0"/>
+  <text x="163" y="25" text-anchor="middle" fill="#6366f1" font-family="Arial, sans-serif" font-size="14" font-weight="500">Mountain Cabin</text>
+</svg>

@@ -1,0 +1,12 @@
+<svg width="326" height="192" viewBox="0 0 326 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="326" height="192" fill="#f3f4f6"/>
+  <rect x="50" y="60" width="226" height="120" rx="8" fill="#e5e7eb" stroke="#d1d5db" stroke-width="2"/>
+  <rect x="70" y="80" width="40" height="60" rx="4" fill="#9ca3af"/>
+  <rect x="120" y="80" width="40" height="60" rx="4" fill="#9ca3af"/>
+  <rect x="170" y="80" width="40" height="60" rx="4" fill="#9ca3af"/>
+  <rect x="220" y="80" width="40" height="60" rx="4" fill="#9ca3af"/>
+  <polygon points="163,60 50,120 276,120" fill="#6b7280"/>
+  <circle cx="90" cy="110" r="8" fill="#374151"/>
+  <rect x="140" y="150" width="46" height="20" rx="2" fill="#374151"/>
+  <text x="163" y="40" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="14" font-weight="500">Luxury Villa</text>
+</svg>
