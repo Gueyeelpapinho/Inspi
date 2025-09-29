@@ -227,7 +227,7 @@ export const executeContractFunction = async (
             console.log('🔍 DIAGNOSTIC: Building createNft transaction...');
 
             // Validate required parameters
-            if (!functionParameters.name || !functionParameters.symbol || !functionParameters.description) {
+            if (!functionParameters.name || !functionParameters.symbol || !functionParameters.memo) {
                 throw new Error('Missing required parameters for createNft');
             }
 
@@ -236,7 +236,7 @@ export const executeContractFunction = async (
                 contractParams
                     .addString(functionParameters.name)
                     .addString(functionParameters.symbol)
-                    .addString(functionParameters.description)
+                    .addString(functionParameters.memo)  // Fixed: description -> memo
                     .addInt64(functionParameters.maxSupply)
                     .addUint32(functionParameters.autoRenewPeriod);
                 console.log('🔍 DIAGNOSTIC: createNft parameters added successfully');
@@ -257,11 +257,15 @@ export const executeContractFunction = async (
             if (!functionParameters.metadata) {
                 throw new Error('Missing required parameter: metadata');
             }
-            if (typeof functionParameters.metadata !== 'string') {
-                throw new Error('Metadata must be a string');
+            // Metadata can be string or array of strings
+            if (typeof functionParameters.metadata !== 'string' && !Array.isArray(functionParameters.metadata)) {
+                throw new Error('Metadata must be a string or array of strings');
             }
-            if (functionParameters.metadata.length === 0) {
-                throw new Error('Metadata cannot be empty');
+            if (Array.isArray(functionParameters.metadata) && functionParameters.metadata.length === 0) {
+                throw new Error('Metadata array cannot be empty');
+            }
+            if (typeof functionParameters.metadata === 'string' && functionParameters.metadata.length === 0) {
+                throw new Error('Metadata string cannot be empty');
             }
             if (functionParameters.availableDates && !Array.isArray(functionParameters.availableDates)) {
                 throw new Error('availableDates must be an array');
@@ -353,17 +357,28 @@ export const executeContractFunction = async (
             console.log('🔍 DIAGNOSTIC: Available dates:', functionParameters.availableDates);
             console.log('🔍 DIAGNOSTIC: Available dates type:', typeof functionParameters.availableDates);
 
-            // Test multiple browser-compatible approaches for bytes encoding
+            // Handle metadata array - convert each string to bytes
             let metadataBytes;
-            console.log('🔍 DIAGNOSTIC: Testing different byte encoding methods...');
+            console.log('🔍 DIAGNOSTIC: Processing metadata array...');
+            console.log('🔍 DIAGNOSTIC: functionParameters.metadata:', functionParameters.metadata);
+            console.log('🔍 DIAGNOSTIC: metadata type:', typeof functionParameters.metadata);
+            console.log('🔍 DIAGNOSTIC: metadata is array:', Array.isArray(functionParameters.metadata));
 
             try {
-                // Approach 1: Use TextEncoder (modern browser standard)
-                console.log('🔍 DIAGNOSTIC: Trying TextEncoder approach...');
-                const encoder = new TextEncoder();
-                metadataBytes = encoder.encode(functionParameters.metadata);
-                console.log('🔍 DIAGNOSTIC: TextEncoder success, bytes length:', metadataBytes.length);
-                console.log('🔍 DIAGNOSTIC: TextEncoder result type:', metadataBytes.constructor.name);
+                if (Array.isArray(functionParameters.metadata)) {
+                    // Metadata is array of strings - convert each to bytes
+                    console.log('🔍 DIAGNOSTIC: Converting metadata array to bytes array...');
+                    const encoder = new TextEncoder();
+                    metadataBytes = functionParameters.metadata.map(item => encoder.encode(item));
+                    console.log('🔍 DIAGNOSTIC: Metadata array converted, length:', metadataBytes.length);
+                    console.log('🔍 DIAGNOSTIC: First item type:', metadataBytes[0]?.constructor?.name);
+                } else {
+                    // Fallback: single string
+                    console.log('🔍 DIAGNOSTIC: Converting single metadata string to bytes...');
+                    const encoder = new TextEncoder();
+                    metadataBytes = [encoder.encode(functionParameters.metadata)];
+                    console.log('🔍 DIAGNOSTIC: Single metadata converted to array');
+                }
             } catch (textEncoderError) {
                 console.error('🚨 DIAGNOSTIC: TextEncoder failed:', textEncoderError);
 
@@ -405,16 +420,22 @@ export const executeContractFunction = async (
                 console.log('🔍 DIAGNOSTIC: Address parameter added successfully');
 
                 console.log('🔍 DIAGNOSTIC: Adding bytes array parameter...');
-                // Try both approaches for bytes array
+                // metadataBytes should now be an array of Uint8Arrays
                 try {
-                    contractParams.addBytesArray([metadataBytes]);
-                    console.log('🔍 DIAGNOSTIC: Bytes array parameter added with encoded bytes');
+                    console.log('🔍 DIAGNOSTIC: metadataBytes is array:', Array.isArray(metadataBytes));
+                    console.log('🔍 DIAGNOSTIC: metadataBytes length:', metadataBytes.length);
+                    console.log('🔍 DIAGNOSTIC: First item type:', metadataBytes[0]?.constructor?.name);
+
+                    // metadataBytes is already Uint8Array[] - exactly what the contract expects
+                    contractParams.addBytesArray(metadataBytes);
+                    console.log('🔍 DIAGNOSTIC: Bytes array parameter added directly');
                 } catch (bytesError) {
-                    console.log('🔍 DIAGNOSTIC: Direct bytes failed, trying TextEncoder fallback...');
+                    console.log('🔍 DIAGNOSTIC: Direct bytes array failed:', bytesError);
+                    console.log('🔍 DIAGNOSTIC: Trying fallback...');
                     const encoder = new TextEncoder();
-                    const fallbackBytes = encoder.encode(functionParameters.metadata);
+                    const fallbackBytes = encoder.encode(JSON.stringify(functionParameters.metadata));
                     contractParams.addBytesArray([fallbackBytes]);
-                    console.log('🔍 DIAGNOSTIC: Bytes array parameter added with TextEncoder fallback');
+                    console.log('🔍 DIAGNOSTIC: Bytes array parameter added with fallback');
                 }
 
                 console.log('🔍 DIAGNOSTIC: Adding uint256 array parameter...');
@@ -478,6 +499,13 @@ export const executeContractFunction = async (
             console.log('🔍 DIAGNOSTIC: Setting function and parameters...');
             transaction = transaction.setFunction(functionName, contractParams);
             console.log('🔍 DIAGNOSTIC: Function and parameters set');
+
+            // Add payable amount for createNft function (token creation requires fee)
+            if (functionName === 'createNft') {
+                console.log('🔍 DIAGNOSTIC: Setting payable amount for createNft...');
+                transaction = transaction.setPayableAmount(new Hbar(20)); // 20 HBAR for token creation
+                console.log('🔍 DIAGNOSTIC: Payable amount set for createNft');
+            }
 
             console.log('🔍 DIAGNOSTIC: Setting max transaction fee...');
             transaction = transaction.setMaxTransactionFee(new Hbar(2));

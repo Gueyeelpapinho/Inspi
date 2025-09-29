@@ -21,7 +21,7 @@ export function useNFT() {
   const { accountId, isConnected } = useHashConnect();
 
   // Deployed contract addresses
-  const NFT_CONTRACT_ID = '0.0.6922152';
+  const NFT_CONTRACT_ID = '0.0.6924092'; // Updated to match deployment-nft.json
 
   const createProperty = async (propertyData: PropertyData): Promise<{ tokenAddress: string; serialNumber: number }> => {
     if (!isConnected || !accountId) {
@@ -41,43 +41,20 @@ export function useNFT() {
     try {
       console.log('Creating property NFT with data:', propertyData);
 
-      // Step 1: Create NFT token for the property
-      const createNftParams = {
-        name: propertyData.name,
-        symbol: `PROP${Date.now()}`,
-        description: propertyData.description,
-        maxSupply: 1000,
-        autoRenewPeriod: 7776000 // 90 days
-      };
+      // Use existing token from deployment instead of creating new ones
+      // Each property will be a new NFT within the same token collection
+      console.log('Step 1: Using existing token collection...');
+      console.log('Contract ID:', NFT_CONTRACT_ID);
 
-      console.log('Step 1: Creating NFT token...');
-      const tokenResponse = await executeContractFunction(
-        accountId,
-        NFT_CONTRACT_ID,
-        'createNft',
-        createNftParams,
-        500000
-      );
-      console.log('Token creation response:', tokenResponse);
+      // Skip token creation - use existing deployed token
+      const tokenResponse = { success: true };
 
-      // Extract the contract result to get the actual token address
-      let actualTokenAddress = null;
-
-      try {
-        if (tokenResponse && tokenResponse.contractFunctionResult) {
-          const result = tokenResponse.contractFunctionResult;
-          if (result.getAddress && typeof result.getAddress === 'function') {
-            actualTokenAddress = result.getAddress(0);
-            console.log('Extracted token address from contract result:', actualTokenAddress);
-          }
-        }
-      } catch (error) {
-        console.log('Could not extract token address from result:', error);
-      }
-
-      // If we couldn't extract the real address, use a mock one
-      const tokenAddress = actualTokenAddress || `0x000000000000000000000000000000000${Math.floor(Math.random() * 1000000).toString(16).padStart(7, '0')}`;
-      console.log('Using token address:', tokenAddress);
+      // Use the existing deployed token address from deployment-nft.json
+      // Try with 0x prefix to see if that's the issue
+      const tokenAddress = '0x000000000000000000000000000000000069a73f';
+      console.log('Using deployed token address with 0x prefix:', tokenAddress);
+      console.log('Token address length:', tokenAddress.length);
+      console.log('Token address format check - should be 42 chars with 0x:', tokenAddress.match(/^0x[0-9a-f]{40}$/i));
 
       // Step 2: Mint the property NFT with metadata
       const metadata = JSON.stringify({
@@ -101,9 +78,17 @@ export function useNFT() {
       );
 
       console.log('Step 2: Minting NFT with metadata...');
+
+      // Use simple IPFS-style metadata like the working deployment script
+      // The successful deployment used: [Buffer.from("ipfs://test-property-metadata-uri")]
+      const metadataUri = `ipfs://property-${propertyData.name.replace(/\s+/g, '-')}-${Date.now()}`;
+      const metadataArray = [metadataUri]; // Array of strings - hashconnect.ts will encode to bytes
+
+      console.log('Using metadata format:', metadataArray);
+
       const mintNftParams = {
         tokenAddress: tokenAddress,
-        metadata: metadata,
+        metadata: metadataArray,  // Array of strings that will become Uint8Array[]
         availableDates: uint256Dates
       };
 
@@ -122,13 +107,23 @@ export function useNFT() {
       try {
         if (mintResponse && mintResponse.contractFunctionResult) {
           const result = mintResponse.contractFunctionResult;
+          console.log('Contract function result:', result);
+          console.log('Result methods:', Object.getOwnPropertyNames(result));
+
           if (result.getInt64 && typeof result.getInt64 === 'function') {
             serialNumber = result.getInt64(0);
             console.log('Extracted serial number from mint result:', serialNumber);
+          } else if (result.asNumber && typeof result.asNumber === 'function') {
+            serialNumber = result.asNumber();
+            console.log('Extracted serial number via asNumber:', serialNumber);
+          } else {
+            console.log('Available result properties:', Object.keys(result));
           }
+        } else {
+          console.log('No contract function result available - transaction may have failed');
         }
       } catch (error) {
-        console.log('Could not extract serial number, using mock:', serialNumber);
+        console.log('Could not extract serial number, using mock:', serialNumber, error);
       }
 
       console.log('Property NFT created successfully:', {
