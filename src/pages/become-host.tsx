@@ -30,7 +30,7 @@ export default function BecomeHost() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isCreating, setIsCreating] = useState(false);
   const [createdProperty, setCreatedProperty] = useState<any>(null);
-  const { createProperty, isLoading, error } = useNFT();
+  const { createProperty, testMinimalMint, testMockTokenMint, isLoading, error } = useNFT();
   const { isConnected } = useHashConnect();
 
   const [formData, setFormData] = useState<PropertyData>({
@@ -354,6 +354,51 @@ export default function BecomeHost() {
                   {!isConnected && (
                     <div className={styles.connectWallet}>
                       <p>⚠️ Please connect your wallet to create the property NFT</p>
+                    </div>
+                  )}
+
+                  {isConnected && (
+                    <div className={styles.formGroup}>
+                      <label>🔧 Diagnostic Tests (for debugging)</label>
+                      <div style={{ display: 'flex', gap: '16px', marginTop: '8px' }}>
+                        <button
+                          onClick={async () => {
+                            try {
+                              setIsCreating(true);
+                              await testMinimalMint();
+                            } catch (err: any) {
+                              alert(`Minimal test failed: ${err.message}`);
+                            } finally {
+                              setIsCreating(false);
+                            }
+                          }}
+                          disabled={isLoading || isCreating}
+                          className={styles.outlineButton}
+                          style={{ fontSize: '14px', padding: '8px 16px' }}
+                        >
+                          🧪 Test Minimal Mint
+                        </button>
+                        <button
+                          onClick={async () => {
+                            try {
+                              setIsCreating(true);
+                              await testMockTokenMint();
+                            } catch (err: any) {
+                              alert(`Mock token test failed: ${err.message}`);
+                            } finally {
+                              setIsCreating(false);
+                            }
+                          }}
+                          disabled={isLoading || isCreating}
+                          className={styles.outlineButton}
+                          style={{ fontSize: '14px', padding: '8px 16px' }}
+                        >
+                          🎭 Test Mock Token Mint
+                        </button>
+                      </div>
+                      <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '4px' }}>
+                        These tests help isolate the protobuf error by testing different transaction approaches.
+                      </p>
                     </div>
                   )}
                 </>

@@ -359,12 +359,83 @@ export function useNFT() {
     }
   };
 
+  // Test functions to isolate the protobuf error
+  const testMinimalMint = async (): Promise<void> => {
+    console.log('🧪 STARTING MINIMAL TEST: Testing with absolute minimum parameters');
+    if (!isConnected || !accountId) {
+      throw new Error('Wallet not connected');
+    }
+
+    if (typeof window === 'undefined') {
+      throw new Error('This function can only be called on the client side');
+    }
+
+    const { executeContractFunction } = await import('@/services/hashconnect');
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const result = await executeContractFunction(
+        accountId,
+        NFT_CONTRACT_ID,
+        'mintNft',
+        { minimal: true }, // Trigger minimal test mode
+        300000
+      );
+
+      console.log('🧪 MINIMAL TEST: Success!', result);
+      alert('Minimal test completed successfully! The basic transaction structure works.');
+    } catch (err: any) {
+      console.error('🧪 MINIMAL TEST: Failed', err);
+      throw new Error(`Minimal test failed: ${err.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const testMockTokenMint = async (): Promise<void> => {
+    console.log('🎭 STARTING MOCK TOKEN TEST: Testing with mock token address');
+    if (!isConnected || !accountId) {
+      throw new Error('Wallet not connected');
+    }
+
+    if (typeof window === 'undefined') {
+      throw new Error('This function can only be called on the client side');
+    }
+
+    const { executeContractFunction } = await import('@/services/hashconnect');
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const result = await executeContractFunction(
+        accountId,
+        NFT_CONTRACT_ID,
+        'mintNft',
+        { mockToken: true }, // Trigger mock token test mode
+        300000
+      );
+
+      console.log('🎭 MOCK TOKEN TEST: Success!', result);
+      alert('Mock token test completed successfully! The minting process works with a known token.');
+    } catch (err: any) {
+      console.error('🎭 MOCK TOKEN TEST: Failed', err);
+      throw new Error(`Mock token test failed: ${err.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     createProperty,
     updatePropertyAvailability,
     transferProperty,
     getPropertyMetadata,
     getUserProperties,
+    testMinimalMint,
+    testMockTokenMint,
     isLoading,
     error
   };
